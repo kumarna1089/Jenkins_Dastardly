@@ -11,6 +11,7 @@ pipeline {
             steps {
                 writeFile file: "${WORKSPACE}/dastardly-report.xml", text: ''
                 sh 'chmod -R 777 ${WORKSPACE}'
+                sh 'chmod -R 777 ${WORKSPACE}/dastardly-report.xml'
                 sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml'
                 sh '''
                     docker run -v ${WORKSPACE} \
@@ -24,7 +25,7 @@ pipeline {
     }
     post {
         always {
-            junit testResults: 'Dastdastardly-report.xml', skipPublishingChecks: true
+            junit testResults: 'dastardly-report.xml', skipPublishingChecks: true
         }
     }
 }
