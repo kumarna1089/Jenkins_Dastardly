@@ -8,7 +8,7 @@ pipeline {
         }
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
-                cleanWs()
+                
                 sh 'chmod -R 777 ${WORKSPACE}'
                 sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml'
                 sh '''
