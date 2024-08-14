@@ -6,20 +6,14 @@ pipeline {
                 sh 'docker pull public.ecr.aws/portswigger/dastardly:latest'
             }
         }
-        stages {
-        stage('Create File') {
+        
+        stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
-                script {
+                 script {
                     def filePath = "${WORKSPACE}/dastardly-report.xml"
                     def file = new File(filePath)
                     file.createNewFile()
                 }
-            }
-        }
-    }
-        stage ("Docker run Dastardly from Burp Suite Scan") {
-            steps {
-                
                 sh 'chmod -R 777 ${WORKSPACE}
                 sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml'
                 sh '''
