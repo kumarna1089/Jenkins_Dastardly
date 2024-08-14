@@ -9,7 +9,7 @@ pipeline {
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
                 cleanWs()
-                sh 'chmod -R 777 C:\ProgramData\Jenkins\.jenkins\workspace\'
+                sh 'chmod -R 777 "C:\ProgramData\Jenkins\.jenkins\workspace\"'
                 sh '''
                     docker run -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
