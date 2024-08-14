@@ -23,7 +23,7 @@ pipeline {
     }
     post {
         always {
-            junit testResults: 'dastardly-report.xml', skipPublishingChecks: true
+            junit testResults: 'Dastdastardly-report.xml', skipPublishingChecks: true
         }
     }
 }
