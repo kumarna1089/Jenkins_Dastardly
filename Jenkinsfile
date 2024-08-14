@@ -9,7 +9,6 @@ pipeline {
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
                 cleanWs()
-                powershell 'chmod -R 777 ${WORKSPACE}'
                 powershell 'echo $env:BURP_REPORT_FILE_PATH="${WORKSPACE}\\dastardly-report.xml"'
                 powershell '''
                     docker run -v ${WORKSPACE}:${WORKSPACE}:rw \
