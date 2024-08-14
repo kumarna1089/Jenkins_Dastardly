@@ -10,6 +10,11 @@ pipeline {
             steps {
                 
                 sh 'chmod -R 777 ${WORKSPACE}'
+
+                def filePath = "${WORKSPACE}/dastardly-report.xml"
+                def file = new File(filePath)
+                file.createNewFile()
+                
                 sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml'
                 sh '''
                     docker run -v ${WORKSPACE} \
