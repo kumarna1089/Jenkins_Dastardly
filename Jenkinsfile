@@ -3,17 +3,21 @@ pipeline {
     stages {
         stage ("Docker Pull Dastardly from Burp Suite container image") {
             steps {
-                powershell 'docker pull public.ecr.aws/portswigger/dastardly:latest'
+                sh 'docker pull public.ecr.aws/portswigger/dastardly:latest'
             }
         }
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
                 cleanWs()
-                powershell 'echo $env:BURP_REPORT_FILE_PATH="${WORKSPACE}/dastardly-report.xml"'
-                powershell '''
+                sh 'chmod -R 777 ${WORKSPACE}'
+                script {
+                    env.BURP_REPORT_FILE_PATH = "C:\ProgramData\Jenkins\.jenkins\workspace\Dastdastardly-report.xml"
+                }
+                sh 'echo $BURP_REPORT_FILE_PATH'
+                sh '''
                     docker run -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
-                    -e BURP_REPORT_FILE_PATH=$env:BURP_REPORT_FILE_PATH \
+                    -e BURP_REPORT_FILE_PATH=$BURP_REPORT_FILE_PATH \
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
             }
