@@ -11,7 +11,7 @@ pipeline {
                 cleanWs()
                 powershell 'echo $env:BURP_REPORT_FILE_PATH="${WORKSPACE}\\dastardly-report.xml"'
                 powershell '''
-                    docker run -v ${WORKSPACE}:${WORKSPACE}:rw \
+                    docker run -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
                     -e BURP_REPORT_FILE_PATH=$env:BURP_REPORT_FILE_PATH \
                     public.ecr.aws/portswigger/dastardly:latest
