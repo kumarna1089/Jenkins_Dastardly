@@ -10,11 +10,11 @@ pipeline {
             steps {
                 cleanWs()
                 sh 'chmod -R 777 ${WORKSPACE}'
-                sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}\dastardly-report.xml'
+                sh 'echo BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml'
                 sh '''
                     docker run -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
-                    -e BURP_REPORT_FILE_PATH=${WORKSPACE}\dastardly-report.xml \
+                    -e BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml \
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
                 sh 'cat ${WORKSPACE}/dastardly-report.xml'
