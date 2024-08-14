@@ -9,9 +9,9 @@ pipeline {
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
                 cleanWs()
-                sh 'chmod -R 777 ${WORKSPACE}'
+                sh 'chmod -R 777 ${WORKSPACE}\\dastardly-report.xml'
                 script {
-                    env.BURP_REPORT_FILE_PATH = "C:\ProgramData\Jenkins\.jenkins\workspace\Dastdastardly-report.xml"
+                    env.BURP_REPORT_FILE_PATH = "env.BURP_REPORT_FILE_PATH = "${WORKSPACE}\\dastardly-report.xml"
                 }
                 sh 'echo $BURP_REPORT_FILE_PATH'
                 sh '''
