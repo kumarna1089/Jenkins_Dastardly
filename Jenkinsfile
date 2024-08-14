@@ -13,15 +13,10 @@ pipeline {
                 sh '''
                     docker run --user $(id -u) -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
-                    -e BURP_REPORT_FILE_PATH=${WORKSPACE}\dastardly-report.xml \
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
             }
         }
     }
-    post {
-        always {
-            junit testResults: 'dastardly-report.xml', skipPublishingChecks: true
-        }
-    }
+
 }
