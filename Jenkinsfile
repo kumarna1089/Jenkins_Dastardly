@@ -18,9 +18,4 @@ pipeline {
             }
         }
     }
-    post {
-        always {
-            junit testResults: 'Dastdastardly-report.xml', skipPublishingChecks: true
-        }
-    }
 }
