@@ -1,5 +1,9 @@
 pipeline {
     agent any
+    environment
+    {
+        WORKSPACE='C:\ProgramData\Jenkins\.jenkins\workspace\DAST'
+    }
     stages {
         stage ("Docker Pull Dastardly from Burp Suite container image") {
             steps {
