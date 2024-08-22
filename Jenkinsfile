@@ -9,6 +9,8 @@ pipeline {
         
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
+                catchError(buildResult: 'SUCCESS', stageResult: 'FAILURE')
+                {
                 sh '''
                     docker run -v ${WORKSPACE} \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
@@ -16,11 +18,7 @@ pipeline {
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
             }
-        }
-    }
-    post {
-        always {
-            junit testResults: 'dastardly-report.xml', allow_failure: true
+            }
         }
     }
 }
