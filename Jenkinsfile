@@ -10,9 +10,9 @@ pipeline {
         stage ("Docker run Dastardly from Burp Suite Scan") {
             steps {
                 sh '''
-                    docker run -v ${WORKSPACE} \
-                    -e BURP_START_URL=https://ginandjuice.shop/ \
-                    -e BURP_REPORT_FILE_PATH=${WORKSPACE}\\dastardly-report.xml \
+                    docker run --user $(id -u) --rm -v $(pwd):/dastardly -e \
+                    DASTARDLY_TARGET_URL=https://ginandjuice.shop -e \
+                    DASTARDLY_OUTPUT_FILE=/dastardly/dastardly-report.xml \
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
             }
