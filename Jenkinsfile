@@ -20,5 +20,11 @@ pipeline {
             }
             }
         }
+         stage ("Trivy - Docker Pull Juice Shop container image") {
+            steps {
+                bat 'docker pull bkimminich/juice-shop'
+                bat 'C:/Users/Eviden/Downloads/trivy_0.54.1_windows-64bit/trivy image bkimminich/juice-shop'
+            }
+        }
     }
 }
