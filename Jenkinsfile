@@ -13,6 +13,7 @@ pipeline {
                     docker run --user $(id -u) -v ${WORKSPACE}:${WORKSPACE}:rw \
                     -e BURP_START_URL=https://ginandjuice.shop/ \
                     -e BURP_REPORT_FILE_PATH=${WORKSPACE}/dastardly-report.xml \
+                    -e BURP_SEVERITY_THRESHOLD=HIGH \
                     public.ecr.aws/portswigger/dastardly:latest
                 '''
             }
