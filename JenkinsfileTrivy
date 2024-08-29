@@ -3,8 +3,11 @@ pipeline {
     stages {
         stage ("Docker Pull Juice Shop container image") {
             steps {
-                sh 'docker pull bkimminich/juice-shop'
-                sh 'C:/Users/Eviden/Downloads/trivy_0.54.1_windows-64bit/trivy image bkimminich/juice-shop'
+script{
+sh 'docker pull bkimminich/juice-shop'
+sh """trivy image --output trivy_report.html bkimminich/juice-shop """
+
+}
             }
         }
         }
