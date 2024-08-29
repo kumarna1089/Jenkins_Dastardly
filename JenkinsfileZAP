@@ -21,11 +21,10 @@ pipeline {
         }
 		stage ("ZAP Report Copy") {
             steps {
+			sh '''
                 docker cp owasp:/zap/wrk/ZAPreport.html ${WORKSPACE}/ZAPreport.html
+				'''
             }
         }
     }
 }
-
-
-        
