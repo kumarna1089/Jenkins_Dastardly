@@ -11,21 +11,42 @@ pipeline {
         }
         stage ("ZAP container image Pull") {
             steps {
-		docker exec owasp mkdir /zap/wrk
                 sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
-		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+				sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
             }
         }
+		stage('Prepare wrk directory') {
+             when {
+                         environment name : 'GENERATE_REPORT', value: 'true'
+             }
+             steps {
+                 script {
+                         sh """
+                             docker exec owasp \
+                             mkdir /zap/wrk
+                         """
+                     }
+                 }
+         }
+		docker exec owasp mkdir /zap/wrk
         stage ("ZAP Scan") {
             steps {     
                 sh '''
-                     docker exec owasp \
                      zap-full-scan.py \
                      -t https://ginandjuice.shop \
-		     -r ${WORKSPACE}/ZAPreport.html \
+					 -x ZAPreport.xml \
                      -I
                  '''
             } 
         }
+		stage('Copy Report to Workspace'){
+             steps {
+                 script {
+                     sh '''
+                         docker cp owasp:/zap/wrk/ZAPreport.xml ${WORKSPACE}/ZAPreport.xml
+                     '''
+                 }
+             }
+         }
     }
 }
