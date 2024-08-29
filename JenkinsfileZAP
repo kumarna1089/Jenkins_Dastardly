@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+    stages {
+        stage ("ZAP container image Pull") {
+            steps {
+                sh 'docker pull owasp/zap2docker-stable:latest'
+				sh 'docker run -dt --name owasp owasp/zap2docker-stable /bin/bash'
+            }
+        }
+        stage ("ZAP Scan") {
+            script {     
+            target = https://ginandjuice.shop/
+         {
+                sh """
+                     docker exec owasp \
+                     zap-full-scan.py \
+                     -t $target \
+                     -r ${WORKSPACE}/ZAPreport.html \
+                     -I
+                 """
+            } 
+        }
+        }
+    }
+}
