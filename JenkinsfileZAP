@@ -23,7 +23,6 @@ pipeline {
                          """
                  }
          }
-		docker exec owasp mkdir /zap/wrk
         stage ("ZAP Scan") {
             steps {     
                 sh '''
