@@ -20,12 +20,10 @@ pipeline {
                          environment name : 'GENERATE_REPORT', value: 'true'
              }
              steps {
-                 script {
                          sh """
                              docker exec owasp \
                              mkdir /zap/wrk
                          """
-                     }
                  }
          }
 		docker exec owasp mkdir /zap/wrk
