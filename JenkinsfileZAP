@@ -5,6 +5,7 @@ pipeline {
             steps {
                 sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
 				sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+				docker exec owasp mkdir /zap/wrk
             }
         }
         stage ("ZAP Scan") {
@@ -12,11 +13,19 @@ pipeline {
                 sh '''
                      docker exec owasp \
                      zap-full-scan.py \
-                     -t https://ginandjuice.shop/ \
-                     -r ${WORKSPACE}/ZAPreport.html \
+                     -t https://ginandjuice.shop \
+                     -r ZAPreport.html \
                      -I
                  '''
             } 
         }
+		stage ("ZAP Report Copy") {
+            steps {
+                docker cp owasp:/zap/wrk/ZAPreport.html ${WORKSPACE}/ZAPreport.html
+            }
+        }
     }
 }
+
+
+        
