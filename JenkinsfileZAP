@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage ("ZAP container image Pull") {
             steps {
-                sh 'docker pull owasp/zap2docker-stable:latest'
+                sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
 				sh 'docker run -dt --name owasp owasp/zap2docker-stable /bin/bash'
             }
         }
