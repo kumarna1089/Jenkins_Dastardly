@@ -1,6 +1,14 @@
 pipeline {
     agent any
     stages {
+	stage ("Clean Up") {
+            steps {     
+                sh '''
+             docker stop owasp
+             docker rm owasp
+         '''
+            } 
+        }
         stage ("ZAP container image Pull") {
             steps {
                 sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
