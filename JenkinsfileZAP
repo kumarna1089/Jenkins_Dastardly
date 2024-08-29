@@ -26,6 +26,7 @@ pipeline {
         stage ("ZAP Scan") {
             steps {     
                 sh '''
+			docker exec owasp \
                      zap-full-scan.py \
                      -t https://ginandjuice.shop \
 					 -x ZAPreport.xml \
