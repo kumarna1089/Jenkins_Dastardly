@@ -9,7 +9,7 @@ pipeline {
         }
         stage ("ZAP Scan") {
             steps {     
-            target = 'https://ginandjuice.shop/'
+            target = https://ginandjuice.shop/
          {
                 sh '''
                      docker exec owasp \
