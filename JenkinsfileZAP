@@ -9,17 +9,14 @@ pipeline {
         }
         stage ("ZAP Scan") {
             steps {     
-            target = https://ginandjuice.shop/
-         {
                 sh '''
                      docker exec owasp \
                      zap-full-scan.py \
-                     -t $target \
+                     -t https://ginandjuice.shop/ \
                      -r ${WORKSPACE}/ZAPreport.html \
                      -I
                  '''
             } 
-        }
         }
     }
 }
