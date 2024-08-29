@@ -21,6 +21,7 @@ pipeline {
                      docker exec owasp \
                      zap-full-scan.py \
                      -t https://ginandjuice.shop \
+		     -r ${WORKSPACE}/ZAPreport.html \
                      -I
                  '''
             } 
