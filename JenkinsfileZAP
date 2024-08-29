@@ -11,9 +11,9 @@ pipeline {
         }
         stage ("ZAP container image Pull") {
             steps {
+		docker exec owasp mkdir /zap/wrk
                 sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
 		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
-		docker exec owasp mkdir /zap/wrk
             }
         }
         stage ("ZAP Scan") {
