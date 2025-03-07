@@ -1,1 +1,32 @@
+pipeline {
+    agent any
+    stages {
 
+        stage ("ZAP container image Pull") {
+            steps {
+                sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
+		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+            }
+        }
+		stage('Prepare wrk directory') {
+             steps {
+                         sh """
+                             docker exec owasp \
+                             mkdir /zap/wrk
+                         """
+                 }
+         }
+        stage ("ZAP Scan") {
+            steps {     
+                sh '''
+			docker exec owasp \
+                     zap-full-scan.py \
+                     -t https://ginandjuice.shop \
+					 -x ZAPreport.xml \
+                     -I
+                 '''
+            } 
+        }
+
+    }
+}
