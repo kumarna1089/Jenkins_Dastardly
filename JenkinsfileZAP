@@ -3,16 +3,14 @@ pipeline {
     stages {
 	stage ("Clean Up") {
             steps {     
-                sh '''
-             docker stop owasp
-             docker rm owasp
-         '''
+                sh 'docker stop owasp'
+                sh 'docker rm owasp'
             } 
         }
         stage ("ZAP container image Pull") {
             steps {
                 sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
-				sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
             }
         }
 		stage('Prepare wrk directory') {
