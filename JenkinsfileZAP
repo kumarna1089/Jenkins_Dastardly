@@ -3,19 +3,19 @@ pipeline {
     stages {
 	stage ("Clean Up") {
             steps {     
-                dat 'docker stop owasp'
-                dat 'docker rm owasp'
+                sh 'docker stop owasp'
+                sh 'docker rm owasp'
             } 
         }
         stage ("ZAP container image Pull") {
             steps {
-                dat 'docker pull ghcr.io/zaproxy/zaproxy:stable'
-		dat 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+                sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
+		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
             }
         }
 		stage('Prepare wrk directory') {
              steps {
-                         dat """
+                         sh """
                              docker exec owasp \
                              mkdir /zap/wrk
                          """
@@ -23,7 +23,7 @@ pipeline {
          }
         stage ("ZAP Scan") {
             steps {     
-                dat '''
+                sh '''
 			docker exec owasp \
                      zap-full-scan.py \
                      -t https://ginandjuice.shop \
@@ -35,7 +35,7 @@ pipeline {
 		stage('Copy Report to Workspace'){
              steps {
                  script {
-                     dat '''
+                     sh '''
                          docker cp owasp:/zap/wrk/ZAPreport.xml ${WORKSPACE}/ZAPreport.xml
                      '''
                  }
