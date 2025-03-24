@@ -9,8 +9,8 @@ pipeline {
         }
         stage ("ZAP container image Pull") {
             steps {
-                sh 'docker pull ghcr.io/zaproxy/zaproxy:stable'
-		sh 'docker run -dt --name owasp ghcr.io/zaproxy/zaproxy:stable /bin/bash'
+                sh 'docker pull zaproxy/zaproxy:stable'
+		sh 'docker run -dt --name owasp zaproxy/zaproxy:stable /bin/bash'
             }
         }
 		stage('Prepare wrk directory') {
