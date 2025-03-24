@@ -1,11 +1,17 @@
 pipeline {
     agent any
     stages {
-	
+	stage ("Clean Up") 
+	{ steps 
+	{ 
+		sh 'docker stop owasp' 
+		sh 'docker rm owasp'
+	} 
+	}
         stage ("ZAP container image Pull") {
             steps {
-                sh 'docker pull zaproxy/zaproxy:stable'
-		sh 'docker run -dt --name owasp zaproxy/zaproxy:stable /bin/bash'
+                sh 'docker pull zaproxy/zap-stable'
+		sh 'docker run -dt --name owasp zaproxy/zap-stable /bin/bash'
             }
         }
 		stage('Prepare wrk directory') {
