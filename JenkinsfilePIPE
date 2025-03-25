@@ -1,1 +1,46 @@
-
+pipeline {
+    agent any
+    stages {
+	stage ("Clean Up") 
+	{ steps 
+	{ 
+		sh 'docker stop owasp' 
+		sh 'docker rm owasp'
+	} 
+	}
+        stage ("ZAP container image Pull") {
+            steps {
+                sh 'docker pull zaproxy/zap-stable'
+		sh 'docker run -dt --name owasp zaproxy/zap-stable /bin/bash'
+            }
+        }
+		stage('Prepare wrk directory') {
+             steps {
+                         sh """
+                             docker exec owasp \
+                             mkdir /zap/wrk
+                         """
+                 }
+         }
+        stage ("ZAP Scan") {
+            steps {     
+                sh '''
+			docker exec owasp \
+                     zap-full-scan.py \
+                     -t https://ginandjuice.shop \
+					 -x ZAPreport.xml \
+                     -I
+                 '''
+            } 
+        }
+		stage('Copy Report to Workspace'){
+             steps {
+                 script {
+                     sh '''
+                         docker cp owasp:/zap/wrk/ZAPreport.xml ${WORKSPACE}/ZAPreport.xml
+                     '''
+                 }
+             }
+         }
+    }
+}
